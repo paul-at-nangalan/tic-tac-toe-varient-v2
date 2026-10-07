@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Corner Master Tic-Tac-Toe</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <header>
+      <h1>Corner Master</h1>
+      <p class="subtitle">Occupy 3 corners to win! Form a line of 3 to remove an opponent piece.</p>
+    </header>
+
+    <div class="status-panel">
+      <div class="current-turn" id="turn-indicator">
+        Player 1 (X)'s Turn
+      </div>
+      <div class="message-banner" id="game-message">
+        Select an empty cell to place your piece.
+      </div>
+    </div>
+
+    <div class="scoreboard">
+      <div class="score-card player1">
+        <span class="player-label">Player 1 (X)</span>
+        <div class="score-details">
+          <span>Corners Held: <strong id="p1-corners">0</strong></span>
+          <span>Lines Formed: <strong id="p1-lines">0</strong></span>
+        </div>
+      </div>
+      <div class="score-card player2">
+        <span class="player-label">Player 2 (O)</span>
+        <div class="score-details">
+          <span>Corners Held: <strong id="p2-corners">0</strong></span>
+          <span>Lines Formed: <strong id="p2-lines">0</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <main class="board-container">
+      <div class="board" id="board" role="grid">
+        <!-- 9 Cells dynamically or statically rendered -->
+        <button class="cell corner" data-row="0" data-col="0" id="cell-0-0" aria-label="Row 1 Column 1 corner"></button>
+        <button class="cell" data-row="0" data-col="1" id="cell-0-1" aria-label="Row 1 Column 2"></button>
+        <button class="cell corner" data-row="0" data-col="2" id="cell-0-2" aria-label="Row 1 Column 3 corner"></button>
+
+        <button class="cell" data-row="1" data-col="0" id="cell-1-0" aria-label="Row 2 Column 1"></button>
+        <button class="cell" data-row="1" data-col="1" id="cell-1-1" aria-label="Row 2 Column 2 center"></button>
+        <button class="cell" data-row="1" data-col="2" id="cell-1-2" aria-label="Row 2 Column 3"></button>
+
+        <button class="cell corner" data-row="2" data-col="0" id="cell-2-0" aria-label="Row 3 Column 1 corner"></button>
+        <button class="cell" data-row="2" data-col="1" id="cell-2-1" aria-label="Row 3 Column 2"></button>
+        <button class="cell corner" data-row="2" data-col="2" id="cell-2-2" aria-label="Row 3 Column 3 corner"></button>
+      </div>
+    </main>
+
+    <div class="controls">
+      <button id="reset-btn" class="btn">Restart Game</button>
+    </div>
+  </div>
+
+  <!-- Game Over Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-content">
+      <h2 id="modal-title">Game Over!</h2>
+      <p id="modal-body">Player 1 wins!</p>
+      <button id="modal-restart-btn" class="btn">Play Again</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

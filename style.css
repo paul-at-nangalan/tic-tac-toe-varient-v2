@@ -1,0 +1,288 @@
+:root {
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --player1-color: #38bdf8;
+  --player2-color: #f43f5e;
+  --accent-gold: #f59e0b;
+  --board-bg: #334155;
+  --cell-bg: #1e293b;
+  --cell-hover: #475569;
+  --disabled-cell: #0f172a;
+  --removal-glow: #ef4444;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.game-container {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+header {
+  text-align: center;
+}
+
+header h1 {
+  font-size: 2.2rem;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, var(--player1-color), var(--player2-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.status-panel {
+  width: 100%;
+  background-color: var(--card-bg);
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+.current-turn {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--player1-color);
+  transition: color 0.3s ease;
+}
+
+.current-turn.p2 {
+  color: var(--player2-color);
+}
+
+.message-banner {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  min-height: 1.4em;
+}
+
+.message-banner.removal-mode {
+  color: var(--accent-gold);
+  font-weight: 600;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.scoreboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+}
+
+.score-card {
+  background-color: var(--card-bg);
+  padding: 12px 16px;
+  border-radius: 10px;
+  border-top: 4px solid var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.score-card.player1 {
+  border-color: var(--player1-color);
+}
+
+.score-card.player2 {
+  border-color: var(--player2-color);
+}
+
+.player-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.score-details {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.score-details strong {
+  color: var(--text-primary);
+}
+
+.board-container {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 400px;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  background-color: var(--board-bg);
+  padding: 10px;
+  border-radius: 16px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+}
+
+.cell {
+  background-color: var(--cell-bg);
+  border: none;
+  border-radius: 10px;
+  font-size: 3rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease;
+  user-select: none;
+  position: relative;
+}
+
+.cell.corner::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 6px;
+  height: 6px;
+  background-color: var(--accent-gold);
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+.cell:hover:not(:disabled) {
+  background-color: var(--cell-hover);
+  transform: scale(0.98);
+}
+
+.cell:disabled {
+  cursor: not-allowed;
+}
+
+.cell.x {
+  color: var(--player1-color);
+}
+
+.cell.o {
+  color: var(--player2-color);
+}
+
+/* Removal Mode Specific Styles */
+.board.removal-mode .cell {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.board.removal-mode .cell.removable {
+  cursor: pointer;
+  opacity: 1;
+  border: 2px solid var(--removal-glow);
+  animation: shake 0.5s ease-in-out infinite alternate;
+}
+
+.board.removal-mode .cell.removable:hover {
+  background-color: rgba(239, 68, 68, 0.2);
+  transform: scale(1.03);
+}
+
+@keyframes shake {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-3px); }
+}
+
+.controls {
+  margin-top: 10px;
+}
+
+.btn {
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--board-bg);
+  padding: 10px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: var(--cell-hover);
+}
+
+/* Modal Styling */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 100;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background-color: var(--card-bg);
+  padding: 30px;
+  border-radius: 16px;
+  text-align: center;
+  max-width: 360px;
+  width: 90%;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content h2 {
+  font-size: 1.8rem;
+  margin-bottom: 12px;
+  color: var(--accent-gold);
+}
+
+.modal-content p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
